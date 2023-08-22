@@ -14,8 +14,9 @@
         <input id="coupon_code" class="px-8 py-4 w-1/3 text-center border-solid border-2 border-black-800 rounded-lg mt-7" type="text" name="coupon_code" placeholder="Apply Promocode">
         <br>
         <input id="apply" class="px-8 py-4 w-1/4 bg-indigo-500 hover:bg-indigo-300 rounded-lg m-7 text-white font-bold" type="button" value="Apply">
-        <h3 id="message" class="text-2xl font-bold text-green-500"></h3>
+        <h3 ><span id="message" class="text-2xl font-bold text-green-500"></span></h3>
     </section>
+    <script src="./jquery-3.2.1.min.js"></script>
 <script>
     $("#apply").click(function(){
         if($("#promo_code").val()!=""){
