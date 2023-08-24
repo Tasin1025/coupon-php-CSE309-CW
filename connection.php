@@ -1,12 +1,11 @@
-<?php 
-$url = "localhost";
+<?php
+$url = 'localhost';
 $username = "root";
 $password = "";
-$dbname = "coupons"
-$conn = mysqli_connect($url, $username, $password,$dbname);
-
+$dbname = "school";
+$conn = mysqli_connect($url, $username, $password, $dbname);
+/* Check connection */
 if (!$conn) {
-    die("connection failed: ".mysqli_connect_error());
+    die("Connection failed: " . mysqli_connect_error());
 }
-
 ?>

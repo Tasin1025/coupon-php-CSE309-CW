@@ -1,45 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Coupon PHP</title>
+    <title>Promocode Apply Project In PHP</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <section class="flex flex-col justify-center items-center ">
-        <h1 class="text-4xl mt-10"> Enter amount </h1>
-        <input id="total_price" class="px-8 py-4 w-1/3 text-center border-solid border-2 border-black-800 rounded-lg mt-7 " type="text" name="" id="" placeholder="Total Price">
-        <h1 class="text-4xl mt-7"> Coupon </h1>
-        <input id="coupon_code" class="px-8 py-4 w-1/3 text-center border-solid border-2 border-black-800 rounded-lg mt-7" type="text" name="coupon_code" placeholder="Apply Promocode">
-        <br>
-        <input id="apply" class="px-8 py-4 w-1/4 bg-indigo-500 hover:bg-indigo-300 rounded-lg m-7 text-white font-bold" type="button" value="Apply">
-        <h3 ><span id="message" class="text-2xl font-bold text-green-500"></span></h3>
-    </section>
-    <script src="./jquery-3.2.1.min.js"></script>
+
+<div class="container">
+    <h2>Promocode Application</h2>
+    <div class="form-group">
+        <label for="total_price">Total Price:</label>
+        <input type="text" class="form-control" id="total_price" name="total_price" value="1000.00" readonly>
+    </div>
+    <div class="form-group">
+        <label for="coupon_code">Apply Promocode:</label>
+        <input type="text" class="form-control" id="coupon_code" placeholder="Apply Promocode" name="coupon_code">
+        <b><span id="message" style="color: green;"></span></b>
+    </div>
+    <button id="apply" class="btn btn-default">Apply</button>
+    <button id="edit" class="btn btn-default" style="display: none;">Edit</button>
+</div>
 <script>
-    $("#apply").click(function(){
-        if($("#promo_code").val()!=""){
+    $("#apply").click(function () {
+        if ($('#coupon_code').val() !== '') {
             $.ajax({
                 type: "POST",
                 url: "process.php",
                 data: {
-                    coupon_code: $("#coupon_code").val()
+                    coupon_code: $('#coupon_code').val()
                 },
-                success: function(dataResult){
+                success: function (dataResult) {
                     var dataResult = JSON.parse(dataResult);
-                    if (dataResult.statusCode == 200){
-                        var after_apply =$("#total_price").val()-dataResult.value;
-                        $("#total_price").val(after_apply);
-                        $("#message").html("Promocode applied successfully");
-                    } else if (dataResult.statusCode == 201 ){
-                        $("#message").html("Invalid Promocode !");
+                    if (dataResult.statusCode === 200) {
+                        var after_apply = parseFloat($('#total_price').val()) - parseFloat(dataResult.value);
+                        $('#total_price').val(after_apply.toFixed(2));
+                        $('#apply').hide();
+                        $('#edit').show();
+                        $('#message').html("Promocode applied successfully!");
+                    } else if (dataResult.statusCode === 201) {
+                        $('#message').html("Invalid promocode!");
                     }
                 }
             });
         } else {
-            $("#message").htnl("Promocode cannot be blank")
+            $('#message').html("Promocode cannot be blank. Enter a valid Promocode!");
         }
+    });
+    $("#edit").click(function () {
+        $('#coupon_code').val("");
+        $('#apply').show();
+        $('#edit').hide();
+        location.reload();
     });
 </script>
 </body>
